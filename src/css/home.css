@@ -1,0 +1,110 @@
+/* src/css/home.css */
+body {
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+    color: white;
+    margin: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Barra de navegación */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo {
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+}
+
+.logo span {
+    color: #9CCDDB;
+}
+
+/* Celeste de tu paleta */
+
+.btn-logout {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-logout:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Contenedor Principal */
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 2rem;
+    padding: 3rem 4rem;
+    height: calc(100vh - 100px);
+}
+
+.card-glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Cronómetro */
+.timer-display {
+    font-size: 8rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 30px rgba(156, 205, 219, 0.2);
+}
+
+.btn-primary {
+    background: white;
+    color: black;
+    border: none;
+    padding: 1.2rem 2.5rem;
+    border-radius: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Notas */
+.notes-section {
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+textarea {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+    resize: none;
+    outline: none;
+    margin-top: 1rem;
+    line-height: 1.6;
+}

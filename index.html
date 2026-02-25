@@ -1,14 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dashboard - Pomodoro Pro</title>
+    <link rel="stylesheet" href="src/css/variables.css">
+    <link rel="stylesheet" href="src/css/home.css">
 </head>
 
 <body>
-    <h1>Hola este va a ser el pomodor</h1>
+    <nav class="navbar">
+        <div class="logo">POMODORO<span>PRO</span></div>
+        <div class="user-info">
+            <span id="usernameDisplay">Cargando...</span>
+            <button onclick="logout()" class="btn-logout">Salir</button>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        <section class="timer-section card-glass">
+            <div class="timer-display" id="timer">25:00</div>
+            <div class="timer-controls">
+                <button id="startBtn" class="btn-primary">EMPEZAR ENFOQUE</button>
+                <button id="resetBtn" class="btn-secondary">Reiniciar</button>
+            </div>
+            <p class="status-text">Estado: <span id="status">Esperando...</span></p>
+        </section>
+
+        <section class="notes-section card-glass">
+            <h3>Notas de la Sesión</h3>
+            <textarea id="sessionNotes" placeholder="¿En qué estás trabajando ahora?..."></textarea>
+            <div class="stats-mini">
+                <div class="stat-item">
+                    <span class="stat-value">0</span>
+                    <span class="stat-label">Ciclos hoy</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="src/js/main.js"></script>
 </body>
 
 </html>
