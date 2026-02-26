@@ -20,11 +20,49 @@
 
     <main class="dashboard-container">
         <section class="timer-section card-glass">
+            <button id="settingsBtn" class="btn-settings-toggle">
+                ⚙️ Ajusta tu Pomodoro
+            </button>
+
+            <div id="settingsModal" class="modal-overlay hidden">
+                <div class="modal-content card-glass">
+                    <h3>Configurar Tiempos (min)</h3>
+
+                    <div class="setting-row">
+                        <label for="inputPomodoro">Pomodoro</label>
+                        <input type="number" id="inputPomodoro" value="25" min="1">
+                    </div>
+
+                    <div class="setting-row">
+                        <label for="inputShort">Descanso Corto</label>
+                        <input type="number" id="inputShort" value="5" min="1">
+                    </div>
+
+                    <div class="setting-row">
+                        <label for="inputLong">Descanso Largo</label>
+                        <input type="number" id="inputLong" value="15" min="1">
+                    </div>
+
+                    <div class="modal-buttons">
+                        <button id="applySettings" class="btn-primary-modal">Aplicar Cambios</button>
+                        <button id="closeModal" class="btn-cancel">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modes-container">
+                <button class="mode-btn active" data-mode="pomodoro" onclick="setMode('pomodoro')">Pomodoro</button>
+                <button class="mode-btn" data-mode="short" onclick="setMode('short')">Descanso Corto</button>
+                <button class="mode-btn" data-mode="long" onclick="setMode('long')">Descanso Largo</button>
+            </div>
+
             <div class="timer-display" id="timer">25:00</div>
+
             <div class="timer-controls">
                 <button id="startBtn" class="btn-primary">EMPEZAR ENFOQUE</button>
                 <button id="resetBtn" class="btn-secondary">Reiniciar</button>
             </div>
+
             <p class="status-text">Estado: <span id="status">Esperando...</span></p>
         </section>
 

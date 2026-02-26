@@ -1,43 +1,52 @@
-// --- 1. PROTECCIÓN DE RUTA (EJECUCIÓN INMEDIATA) ---
 const userData = sessionStorage.getItem('user');
 if (!userData) {
     window.location.href = 'src/pages/login.html';
 }
 
-// --- 2. VARIABLES DEL CRONÓMETRO ---
-let timeLeft = 25 * 60; // 25 minutos en segundos
+const timerSettings = {
+    pomodoro: 25 * 60,
+    short: 5 * 60,
+    long: 15 * 60
+};
+
+const modeLabels = {
+    pomodoro: 'ENFOQUE',
+    short: 'DESCANSO CORTO',
+    long: 'DESCANSO LARGO'
+};
+
+let currentMode = 'pomodoro';
+let timeLeft = timerSettings[currentMode];
 let timerId = null;
 let isRunning = false;
 
-// --- 3. INICIALIZACIÓN DE LA INTERFAZ ---
 document.addEventListener('DOMContentLoaded', () => {
     const user = JSON.parse(userData);
-
-    // Mostrar nombre de usuario
     const display = document.getElementById('usernameDisplay');
     if (display) display.innerText = `Hola, ${user.username}`;
 
-    // Referencias a botones
-    const startBtn = document.getElementById('startBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const timerDisplay = document.getElementById('timer');
+    document.getElementById('startBtn').addEventListener('click', toggleTimer);
+    document.getElementById('resetBtn').addEventListener('click', resetTimer);
 
-    // Eventos
-    startBtn.addEventListener('click', toggleTimer);
-    resetBtn.addEventListener('click', resetTimer);
-
-    // Pintar el tiempo inicial
-    updateDisplay();
+    setupSettingsModal();
+    syncSettingsInputs();
+    setMode('pomodoro');
 });
 
-// --- 4. FUNCIONES DEL RELOJ ---
 function updateDisplay() {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
-    const timerDisplay = document.getElementById('timer');
+    document.getElementById('timer').innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
 
-    // Formato 00:00
-    timerDisplay.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+function getStartLabel() {
+    return `EMPEZAR ${modeLabels[currentMode]}`;
+}
+
+function getRunningStatus() {
+    if (currentMode === 'pomodoro') return 'En enfoque...';
+    if (currentMode === 'short') return 'En descanso corto...';
+    return 'En descanso largo...';
 }
 
 function toggleTimer() {
@@ -45,41 +54,107 @@ function toggleTimer() {
     const statusText = document.getElementById('status');
 
     if (isRunning) {
-        // PAUSAR
         clearInterval(timerId);
-        startBtn.innerText = "REANUDAR ENFOQUE";
-        statusText.innerText = "Pausado";
-    } else {
-        // INICIAR
-        isRunning = true;
-        startBtn.innerText = "PAUSAR";
-        statusText.innerText = "En enfoque...";
-
-        timerId = setInterval(() => {
-            timeLeft--;
-            updateDisplay();
-
-            if (timeLeft <= 0) {
-                clearInterval(timerId);
-                alert("¡Tiempo cumplido! Descansa un poco.");
-                resetTimer();
-            }
-        }, 1000);
+        isRunning = false;
+        startBtn.innerText = `REANUDAR ${modeLabels[currentMode]}`;
+        statusText.innerText = 'Pausado';
+        return;
     }
-    isRunning = !isRunning;
+
+    isRunning = true;
+    startBtn.innerText = 'PAUSAR';
+    statusText.innerText = getRunningStatus();
+
+    timerId = setInterval(() => {
+        timeLeft -= 1;
+        updateDisplay();
+
+        if (timeLeft <= 0) {
+            clearInterval(timerId);
+            isRunning = false;
+            alert('¡Tiempo cumplido!');
+            resetTimer();
+        }
+    }, 1000);
 }
 
 function resetTimer() {
     clearInterval(timerId);
+    timerId = null;
     isRunning = false;
-    timeLeft = 25 * 60;
-
-    document.getElementById('startBtn').innerText = "EMPEZAR ENFOQUE";
-    document.getElementById('status').innerText = "Esperando...";
+    timeLeft = timerSettings[currentMode];
+    document.getElementById('startBtn').innerText = getStartLabel();
+    document.getElementById('status').innerText = 'Esperando...';
     updateDisplay();
 }
 
-// --- 5. SESIÓN ---
+function setMode(mode) {
+    if (!timerSettings[mode]) return;
+
+    clearInterval(timerId);
+    timerId = null;
+    isRunning = false;
+    currentMode = mode;
+    timeLeft = timerSettings[mode];
+
+    document.querySelectorAll('.mode-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.mode === mode);
+    });
+
+    document.getElementById('startBtn').innerText = getStartLabel();
+    document.getElementById('status').innerText = 'Esperando...';
+    updateDisplay();
+}
+
+function setupSettingsModal() {
+    const modal = document.getElementById('settingsModal');
+    const btnOpen = document.getElementById('settingsBtn');
+    const btnClose = document.getElementById('closeModal');
+    const btnApply = document.getElementById('applySettings');
+
+    if (!modal || !btnOpen || !btnClose || !btnApply) return;
+
+    btnOpen.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+    });
+
+    btnClose.addEventListener('click', () => {
+        modal.classList.add('hidden');
+    });
+
+    btnApply.addEventListener('click', () => {
+        const p = parseInt(document.getElementById('inputPomodoro').value, 10);
+        const s = parseInt(document.getElementById('inputShort').value, 10);
+        const l = parseInt(document.getElementById('inputLong').value, 10);
+
+        if (!isValidMinutes(p) || !isValidMinutes(s) || !isValidMinutes(l)) {
+            alert('Ingresa solo números mayores a 0.');
+            return;
+        }
+
+        timerSettings.pomodoro = p * 60;
+        timerSettings.short = s * 60;
+        timerSettings.long = l * 60;
+
+        setMode('pomodoro');
+        modal.classList.add('hidden');
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.add('hidden');
+    });
+}
+
+function syncSettingsInputs() {
+    document.getElementById('inputPomodoro').value = timerSettings.pomodoro / 60;
+    document.getElementById('inputShort').value = timerSettings.short / 60;
+    document.getElementById('inputLong').value = timerSettings.long / 60;
+}
+
+function isValidMinutes(value) {
+    return Number.isInteger(value) && value > 0;
+}
+
 function logout() {
     sessionStorage.clear();
     window.location.href = 'src/pages/login.html';
