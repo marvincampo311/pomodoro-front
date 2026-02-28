@@ -20,9 +20,7 @@
 
     <main class="dashboard-container">
         <section class="timer-section card-glass">
-            <button id="settingsBtn" class="btn-settings-toggle">
-                Ajusta tu Pomodoro
-            </button>
+            <button id="settingsBtn" class="btn-settings-toggle">Ajusta tu Pomodoro</button>
 
             <div id="settingsModal" class="modal-overlay hidden">
                 <div class="modal-content card-glass">
@@ -67,8 +65,13 @@
         </section>
 
         <section class="notes-section card-glass">
-            <h3>Notas de la Sesión</h3>
-            <textarea id="sessionNotes" placeholder="¿En qué estás trabajando ahora?..."></textarea>
+            <div class="notes-header">
+                <h3>Notas de la Sesión</h3>
+                <button id="downloadPdf" class="btn-download">Descargar PDF</button>
+            </div>
+            <div id="pdfContent">
+                <textarea id="sessionNotes" placeholder="Escribe tus avances aquí..."></textarea>
+            </div>
             <div class="stats-mini">
                 <div class="stat-item">
                     <span class="stat-value">0</span>
@@ -78,6 +81,7 @@
         </section>
     </main>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="src/js/main.js"></script>
 </body>
 

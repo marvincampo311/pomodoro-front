@@ -71,7 +71,6 @@ body {
     transition: 0.3s;
     margin-bottom: 130px;
     margin-left: 20px;
-
 }
 
 .btn-settings-toggle:hover {
@@ -239,6 +238,35 @@ body {
     justify-content: flex-start;
 }
 
+.notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.btn-download {
+    background: rgba(156, 205, 219, 0.2);
+    border: 1px solid #9CCDDB;
+    color: #9CCDDB;
+    padding: 5px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+
+.btn-download:hover {
+    background: #9CCDDB;
+    color: #000;
+}
+
+#pdfContent {
+    width: 100%;
+    flex: 1;
+}
+
 textarea {
     width: 100%;
     height: 100%;
@@ -267,7 +295,6 @@ textarea {
     .timer-display {
         font-size: 4.5rem;
     }
-
 
     .modal-content {
         transform: none;

@@ -1,5 +1,18 @@
-const userData = sessionStorage.getItem('user');
-if (!userData) {
+function getStoredUser() {
+    const raw = sessionStorage.getItem('user');
+    if (!raw) return null;
+
+    try {
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === 'object' ? parsed : null;
+    } catch (_e) {
+        return null;
+    }
+}
+
+const currentUser = getStoredUser();
+if (!currentUser) {
+    sessionStorage.removeItem('user');
     window.location.href = 'src/pages/login.html';
 }
 
@@ -21,14 +34,14 @@ let timerId = null;
 let isRunning = false;
 
 document.addEventListener('DOMContentLoaded', () => {
-    const user = JSON.parse(userData);
     const display = document.getElementById('usernameDisplay');
-    if (display) display.innerText = `Hola, ${user.username}`;
+    if (display) display.innerText = `Hola, ${(currentUser && currentUser.username) || 'Usuario'}`;
 
     document.getElementById('startBtn').addEventListener('click', toggleTimer);
     document.getElementById('resetBtn').addEventListener('click', resetTimer);
 
     setupSettingsModal();
+    setupPdfDownload();
     syncSettingsInputs();
     setMode('pomodoro');
 });
@@ -142,6 +155,44 @@ function setupSettingsModal() {
 
     modal.addEventListener('click', (e) => {
         if (e.target === modal) modal.classList.add('hidden');
+    });
+}
+
+function setupPdfDownload() {
+    const downloadBtn = document.getElementById('downloadPdf');
+    if (!downloadBtn) return;
+
+    downloadBtn.addEventListener('click', () => {
+        if (typeof html2pdf === 'undefined') {
+            alert('No se pudo cargar la librería de PDF.');
+            return;
+        }
+
+        const notesText = document.getElementById('sessionNotes').value;
+        const storedUser = getStoredUser();
+        const username = (storedUser && storedUser.username) || 'Usuario';
+        const date = new Date().toLocaleDateString();
+
+        const element = document.createElement('div');
+        element.innerHTML = `
+            <div style="padding: 40px; font-family: Arial, sans-serif;">
+                <h1 style="color: #333;">Reporte de Enfoque - Pomodoro Pro</h1>
+                <p><strong>Usuario:</strong> ${username}</p>
+                <p><strong>Fecha:</strong> ${date}</p>
+                <hr style="margin: 20px 0;">
+                <div style="white-space: pre-wrap; line-height: 1.6;">${(notesText || 'Sin notas registradas.').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+            </div>
+        `;
+
+        const opt = {
+            margin: 1,
+            filename: `Notas_Pomodoro_${username}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save();
     });
 }
 

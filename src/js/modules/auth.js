@@ -21,7 +21,8 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
             msgDiv.innerText = "¡Bienvenido! Redirigiendo...";
 
             // Guardamos al usuario en la sesión del navegador
-            sessionStorage.setItem('user', JSON.stringify(result.user));
+            const safeUser = (result.user && typeof result.user === 'object') ? result.user : { username: email };
+            sessionStorage.setItem('user', JSON.stringify(safeUser));
 
             // Redirigimos al index principal (fuera de pages y src)
             setTimeout(() => {
