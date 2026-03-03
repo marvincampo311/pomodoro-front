@@ -20,7 +20,12 @@
 
         <div class="form-group">
             <label>Contraseña</label>
-            <input type="password" id="password" placeholder="••••••••">
+            <div class="password-wrapper">
+                <input type="password" id="password" placeholder="••••••••">
+                <button type="button" id="togglePassword" class="toggle-password" aria-label="Mostrar contraseña">
+                    Ver
+                </button>
+            </div>
         </div>
 
         <button class="btn-login" id="loginBtn">INGRESAR</button>

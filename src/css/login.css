@@ -50,6 +50,10 @@ h2 {
     text-align: left;
 }
 
+.password-wrapper {
+    position: relative;
+}
+
 /* Ocultamos el label para que se vea minimalista como la imagen */
 label {
     display: none;
@@ -67,6 +71,28 @@ input {
     color: white;
     font-size: 1rem;
     transition: all 0.3s ease;
+}
+
+#password {
+    padding-right: 4.5rem;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.75);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+}
+
+.toggle-password:hover {
+    color: #ffffff;
 }
 
 input::placeholder {

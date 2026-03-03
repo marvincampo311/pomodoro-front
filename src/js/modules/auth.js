@@ -1,8 +1,24 @@
-// pomodoro-front/src/js/modules/auth.js
+﻿// pomodoro-front/src/js/modules/auth.js
+
+let isPasswordVisible = false;
+const passwordInput = document.getElementById('password');
+const togglePasswordBtn = document.getElementById('togglePassword');
+
+if (passwordInput && togglePasswordBtn) {
+    togglePasswordBtn.addEventListener('click', () => {
+        isPasswordVisible = !isPasswordVisible;
+        passwordInput.type = isPasswordVisible ? 'text' : 'password';
+        togglePasswordBtn.textContent = isPasswordVisible ? 'Ocultar' : 'Ver';
+        togglePasswordBtn.setAttribute(
+            'aria-label',
+            isPasswordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'
+        );
+    });
+}
 
 document.getElementById('loginBtn').addEventListener('click', async () => {
     const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    const password = passwordInput.value;
     const msgDiv = document.getElementById('message');
 
     try {
