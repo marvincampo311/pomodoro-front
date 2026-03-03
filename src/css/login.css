@@ -50,16 +50,12 @@ h2 {
     text-align: left;
 }
 
-.password-wrapper {
-    position: relative;
-}
-
 /* Ocultamos el label para que se vea minimalista como la imagen */
 label {
     display: none;
 }
 
-input {
+input:not([type="checkbox"]) {
     width: 100%;
     padding: 1rem;
     /* Fondo gris oscuro traslúcido */
@@ -73,33 +69,38 @@ input {
     transition: all 0.3s ease;
 }
 
-#password {
-    padding-right: 4.5rem;
+.show-password-row {
+    margin-top: 0.55rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
 }
 
-.toggle-password {
-    position: absolute;
-    right: 0.75rem;
-    top: 50%;
-    transform: translateY(-50%);
+.show-password-checkbox {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    margin: 0;
     background: transparent;
     border: none;
-    color: rgba(255, 255, 255, 0.75);
+    border-radius: 0;
+    accent-color: #ffffff;
     cursor: pointer;
+}
+
+.show-password-label {
+    display: inline;
+    color: rgba(255, 255, 255, 0.75);
     font-size: 0.9rem;
-    font-weight: 600;
-    padding: 0.25rem 0.5rem;
+    cursor: pointer;
 }
 
-.toggle-password:hover {
-    color: #ffffff;
-}
-
-input::placeholder {
+input:not([type="checkbox"])::placeholder {
     color: rgba(255, 255, 255, 0.3);
 }
 
-input:focus {
+input:not([type="checkbox"]):focus {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.3);
 }

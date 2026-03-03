@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Login - Pomodoro Expert</title>
-    <link rel="stylesheet" href="../../css/variables.css">
     <link rel="stylesheet" href="../css/login.css">
 </head>
 
@@ -20,11 +19,10 @@
 
         <div class="form-group">
             <label>Contraseña</label>
-            <div class="password-wrapper">
-                <input type="password" id="password" placeholder="••••••••">
-                <button type="button" id="togglePassword" class="toggle-password" aria-label="Mostrar contraseña">
-                    Ver
-                </button>
+            <input type="password" id="password" placeholder="••••••••">
+            <div class="show-password-row">
+                <input type="checkbox" id="showPassword" class="show-password-checkbox">
+                <label for="showPassword" class="show-password-label">Mostrar contraseña</label>
             </div>
         </div>
 

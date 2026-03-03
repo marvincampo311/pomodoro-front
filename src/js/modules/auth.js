@@ -2,17 +2,12 @@
 
 let isPasswordVisible = false;
 const passwordInput = document.getElementById('password');
-const togglePasswordBtn = document.getElementById('togglePassword');
+const showPasswordCheckbox = document.getElementById('showPassword');
 
-if (passwordInput && togglePasswordBtn) {
-    togglePasswordBtn.addEventListener('click', () => {
-        isPasswordVisible = !isPasswordVisible;
+if (passwordInput && showPasswordCheckbox) {
+    showPasswordCheckbox.addEventListener('change', () => {
+        isPasswordVisible = showPasswordCheckbox.checked;
         passwordInput.type = isPasswordVisible ? 'text' : 'password';
-        togglePasswordBtn.textContent = isPasswordVisible ? 'Ocultar' : 'Ver';
-        togglePasswordBtn.setAttribute(
-            'aria-label',
-            isPasswordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'
-        );
     });
 }
 
