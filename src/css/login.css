@@ -1,7 +1,6 @@
 /* pomodoro-front/src/css/login.css */
 
 body {
-    /* Fondo negro profundo con un ligero degradado radial para dar profundidad */
     background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
     display: flex;
     align-items: center;
@@ -12,14 +11,10 @@ body {
 }
 
 .login-card {
-    /* Vidrio oscuro: fondo negro con transparencia y mucho desenfoque */
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-
-    /* Borde muy fino y tenue */
     border: 1px solid rgba(255, 255, 255, 0.1);
-
     padding: 3rem;
     border-radius: 28px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
@@ -30,13 +25,11 @@ body {
 
 h2 {
     color: #ffffff;
-    /* Blanco puro para el título */
     margin-bottom: 0.5rem;
     font-size: 2rem;
     font-weight: 700;
 }
 
-/* Subtítulo como el de tu referencia */
 .login-card::after {
     content: "Please enter your details to sign in.";
     display: block;
@@ -50,7 +43,6 @@ h2 {
     text-align: left;
 }
 
-/* Ocultamos el label para que se vea minimalista como la imagen */
 label {
     display: none;
 }
@@ -58,13 +50,12 @@ label {
 input:not([type="checkbox"]) {
     width: 100%;
     padding: 1rem;
-    /* Fondo gris oscuro traslúcido */
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     box-sizing: border-box;
     outline: none;
-    color: white;
+    color: #ffffff;
     font-size: 1rem;
     transition: all 0.3s ease;
 }
@@ -106,7 +97,6 @@ input:not([type="checkbox"]):focus {
 }
 
 .btn-login {
-    /* Botón blanco sólido para máximo contraste */
     background: #ffffff;
     color: #000000;
     border: none;
@@ -123,7 +113,25 @@ input:not([type="checkbox"]):focus {
 .btn-login:hover {
     background: rgba(255, 255, 255, 0.9);
     transform: scale(0.98);
-    /* Efecto de presión */
+}
+
+.btn-register {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    width: 100%;
+    padding: 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.btn-register:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: scale(0.98);
 }
 
 #message {
