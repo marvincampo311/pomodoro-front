@@ -3,11 +3,18 @@
 let isPasswordVisible = false;
 const passwordInput = document.getElementById('password');
 const showPasswordCheckbox = document.getElementById('showPassword');
+const registerBtn = document.getElementById('registerBtn');
 
 if (passwordInput && showPasswordCheckbox) {
     showPasswordCheckbox.addEventListener('change', () => {
         isPasswordVisible = showPasswordCheckbox.checked;
         passwordInput.type = isPasswordVisible ? 'text' : 'password';
+    });
+}
+
+if (registerBtn) {
+    registerBtn.addEventListener('click', () => {
+        window.location.href = './register.html';
     });
 }
 

@@ -1,0 +1,141 @@
+/* pomodoro-front/src/css/register.css */
+
+body {
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+.register-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 3rem;
+    border-radius: 28px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+h2 {
+    color: #ffffff;
+    margin-bottom: 2.2rem;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.register-card::after {
+    content: "Completa tus datos para crear tu cuenta.";
+    display: block;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+    margin-top: 1.4rem;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+
+label {
+    display: none;
+}
+
+input:not([type="checkbox"]) {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-sizing: border-box;
+    outline: none;
+    color: #ffffff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+input:not([type="checkbox"])::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+input:not([type="checkbox"]):focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.show-password-row {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+}
+
+.show-password-checkbox {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    accent-color: #ffffff;
+    cursor: pointer;
+}
+
+.show-password-label {
+    display: inline;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.btn-register-main {
+    background: #ffffff;
+    color: #000000;
+    border: none;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-register-main:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(0.98);
+}
+
+.btn-back-login {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    width: 100%;
+    padding: 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.btn-back-login:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: scale(0.98);
+}
+
+#message {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+}

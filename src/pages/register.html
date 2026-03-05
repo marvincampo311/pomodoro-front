@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registro - Pomodoro Expert</title>
+    <link rel="stylesheet" href="../css/register.css">
+</head>
+
+<body>
+
+    <div class="register-card">
+        <h2>Crear Cuenta</h2>
+
+        <div class="form-group">
+            <label>Nombre de usuario</label>
+            <input type="text" id="username" placeholder="Tu usuario">
+        </div>
+
+        <div class="form-group">
+            <label>Correo Electrónico</label>
+            <input type="email" id="email" placeholder="usuario@pomodoro.com">
+        </div>
+
+        <div class="form-group">
+            <label>Contraseña</label>
+            <input type="password" id="password" placeholder="••••••••">
+            <div class="show-password-row">
+                <input type="checkbox" id="showPassword" class="show-password-checkbox">
+                <label for="showPassword" class="show-password-label">Mostrar contraseña</label>
+            </div>
+        </div>
+
+        <button type="button" class="btn-register-main" id="registerSubmitBtn">CREAR CUENTA</button>
+        <button type="button" class="btn-back-login" id="goLoginBtn">VOLVER A INGRESAR</button>
+
+        <div id="message"></div>
+    </div>
+
+    <script src="../js/modules/register.js"></script>
+</body>
+
+</html>
