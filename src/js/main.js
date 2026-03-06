@@ -28,10 +28,13 @@ const modeLabels = {
     long: 'DESCANSO LARGO'
 };
 
+const CYCLE_STORAGE_PREFIX = 'pomodoro_cycle_history';
+
 let currentMode = 'pomodoro';
 let timeLeft = timerSettings[currentMode];
 let timerId = null;
 let isRunning = false;
+let cycleHistory = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     const display = document.getElementById('usernameDisplay');
@@ -42,6 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setupSettingsModal();
     setupPdfDownload();
+    loadCycleHistory();
+    updateCycleStatsUI();
+    renderCycleHistory();
     syncSettingsInputs();
     setMode('pomodoro');
 });
@@ -60,6 +66,100 @@ function getRunningStatus() {
     if (currentMode === 'pomodoro') return 'En enfoque...';
     if (currentMode === 'short') return 'En descanso corto...';
     return 'En descanso largo...';
+}
+
+function getCycleStorageKey() {
+    const userId = (currentUser && currentUser.id) ? currentUser.id : '';
+    const username = (currentUser && currentUser.username) ? currentUser.username : 'usuario';
+    const safeUsername = String(username).replace(/\s+/g, '_').toLowerCase();
+    const identity = userId || safeUsername;
+    return `${CYCLE_STORAGE_PREFIX}:${identity}`;
+}
+
+function loadCycleHistory() {
+    const raw = localStorage.getItem(getCycleStorageKey());
+    if (!raw) {
+        cycleHistory = [];
+        return;
+    }
+
+    try {
+        const parsed = JSON.parse(raw);
+        cycleHistory = Array.isArray(parsed) ? parsed : [];
+    } catch (_e) {
+        cycleHistory = [];
+    }
+}
+
+function saveCycleHistory() {
+    localStorage.setItem(getCycleStorageKey(), JSON.stringify(cycleHistory));
+}
+
+function dateKeyFromDate(dateObj) {
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+function getTodayDateKey() {
+    return dateKeyFromDate(new Date());
+}
+
+function isCycleFromToday(cycleEntry) {
+    if (!cycleEntry || !cycleEntry.completedAt) return false;
+    const d = new Date(cycleEntry.completedAt);
+    if (Number.isNaN(d.getTime())) return false;
+    return dateKeyFromDate(d) === getTodayDateKey();
+}
+
+function updateCycleStatsUI() {
+    const todayCount = cycleHistory.filter(isCycleFromToday).length;
+    const cyclesEl = document.getElementById('cyclesTodayValue');
+    if (cyclesEl) cyclesEl.innerText = String(todayCount);
+}
+
+function renderCycleHistory() {
+    const list = document.getElementById('cycleHistoryList');
+    if (!list) return;
+
+    list.innerHTML = '';
+
+    if (cycleHistory.length === 0) {
+        const item = document.createElement('li');
+        item.className = 'history-item history-empty';
+        item.innerText = 'Aun no hay ciclos completados.';
+        list.appendChild(item);
+        return;
+    }
+
+    const sorted = [...cycleHistory].sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt));
+    const recent = sorted.slice(0, 8);
+
+    recent.forEach((entry) => {
+        const item = document.createElement('li');
+        item.className = 'history-item';
+
+        const completedDate = new Date(entry.completedAt);
+        const timeText = Number.isNaN(completedDate.getTime())
+            ? 'Fecha no disponible'
+            : completedDate.toLocaleString();
+
+        const mins = Number(entry.durationMinutes) || Math.round(timerSettings.pomodoro / 60);
+        item.innerText = `Ciclo completado (${mins} min) - ${timeText}`;
+        list.appendChild(item);
+    });
+}
+
+function registerCompletedPomodoroCycle() {
+    cycleHistory.push({
+        mode: 'pomodoro',
+        durationMinutes: Math.round(timerSettings.pomodoro / 60),
+        completedAt: new Date().toISOString()
+    });
+    saveCycleHistory();
+    updateCycleStatsUI();
+    renderCycleHistory();
 }
 
 function toggleTimer() {
@@ -85,7 +185,12 @@ function toggleTimer() {
         if (timeLeft <= 0) {
             clearInterval(timerId);
             isRunning = false;
-            alert('¡Tiempo cumplido!');
+
+            if (currentMode === 'pomodoro') {
+                registerCompletedPomodoroCycle();
+            }
+
+            alert('Tiempo cumplido!');
             resetTimer();
         }
     }, 1000);
@@ -141,7 +246,7 @@ function setupSettingsModal() {
         const l = parseInt(document.getElementById('inputLong').value, 10);
 
         if (!isValidMinutes(p) || !isValidMinutes(s) || !isValidMinutes(l)) {
-            alert('Ingresa solo números mayores a 0.');
+            alert('Ingresa solo numeros mayores a 0.');
             return;
         }
 
@@ -164,7 +269,7 @@ function setupPdfDownload() {
 
     downloadBtn.addEventListener('click', () => {
         if (typeof html2pdf === 'undefined') {
-            alert('No se pudo cargar la librería de PDF.');
+            alert('No se pudo cargar la libreria de PDF.');
             return;
         }
 

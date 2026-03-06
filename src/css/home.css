@@ -238,6 +238,62 @@ body {
     justify-content: flex-start;
 }
 
+.stats-mini {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.stat-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #9CCDDB;
+}
+
+.stat-label {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.history-panel {
+    width: 100%;
+    margin-top: 1.2rem;
+}
+
+.history-panel h4 {
+    margin: 0 0 0.7rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.history-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.45rem;
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.history-item {
+    font-size: 0.86rem;
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 0.55rem 0.65rem;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.history-empty {
+    color: rgba(255, 255, 255, 0.55);
+}
+
 .notes-header {
     display: flex;
     justify-content: space-between;
