@@ -268,36 +268,59 @@ function setupPdfDownload() {
     if (!downloadBtn) return;
 
     downloadBtn.addEventListener('click', () => {
-        if (typeof html2pdf === 'undefined') {
-            alert('No se pudo cargar la libreria de PDF.');
+        const JsPdfCtor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF || null;
+        if (!JsPdfCtor) {
+            alert('No se pudo cargar el generador de PDF.');
+            console.error('jsPDF no disponible en window.jspdf/window.jsPDF');
             return;
         }
 
-        const notesText = document.getElementById('sessionNotes').value;
+        const notesField = document.getElementById('sessionNotes');
+        const notesText = notesField ? notesField.value : '';
         const storedUser = getStoredUser();
         const username = (storedUser && storedUser.username) || 'Usuario';
         const date = new Date().toLocaleDateString();
+        const doc = new JsPdfCtor({ unit: 'pt', format: 'letter', orientation: 'portrait' });
 
-        const element = document.createElement('div');
-        element.innerHTML = `
-            <div style="padding: 40px; font-family: Arial, sans-serif;">
-                <h1 style="color: #333;">Reporte de Enfoque - Pomodoro Pro</h1>
-                <p><strong>Usuario:</strong> ${username}</p>
-                <p><strong>Fecha:</strong> ${date}</p>
-                <hr style="margin: 20px 0;">
-                <div style="white-space: pre-wrap; line-height: 1.6;">${(notesText || 'Sin notas registradas.').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
-            </div>
-        `;
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const marginX = 50;
+        const marginTop = 55;
+        const lineHeight = 18;
+        const maxTextWidth = pageWidth - (marginX * 2);
+        let y = marginTop;
 
-        const opt = {
-            margin: 1,
-            filename: `Notas_Pomodoro_${username}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-        };
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(20);
+        doc.text('Reporte de Enfoque - Pomodoro Pro', marginX, y);
+        y += 30;
 
-        html2pdf().set(opt).from(element).save();
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(12);
+        doc.text(`Usuario: ${username}`, marginX, y);
+        y += 20;
+        doc.text(`Fecha: ${date}`, marginX, y);
+        y += 25;
+
+        doc.setDrawColor(180);
+        doc.line(marginX, y, pageWidth - marginX, y);
+        y += 25;
+
+        const safeNotes = notesText && notesText.trim() ? notesText : 'Sin notas registradas.';
+        const lines = doc.splitTextToSize(safeNotes, maxTextWidth);
+
+        lines.forEach((line) => {
+            if (y > pageHeight - 55) {
+                doc.addPage();
+                y = marginTop;
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(12);
+            }
+            doc.text(line, marginX, y);
+            y += lineHeight;
+        });
+
+        doc.save(`Notas_Pomodoro_${username}.pdf`);
     });
 }
 
