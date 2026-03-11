@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadCycleHistory();
     updateCycleStatsUI();
     renderCycleHistory();
+    renderWeeklyTable();
     syncSettingsInputs();
     setMode('pomodoro');
 });
@@ -151,6 +152,57 @@ function renderCycleHistory() {
     });
 }
 
+function getWeekDates() {
+    const days = [];
+    const today = new Date();
+    for (let i = 6; i >= 0; i -= 1) {
+        const d = new Date(today);
+        d.setDate(today.getDate() - i);
+        days.push(d);
+    }
+    return days;
+}
+
+function getWeekdayName(dateObj) {
+    const names = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'];
+    return names[dateObj.getDay()];
+}
+
+function renderWeeklyTable() {
+    const body = document.getElementById('weeklyTableBody');
+    if (!body) return;
+
+    const countsByDate = cycleHistory.reduce((acc, entry) => {
+        const d = entry && entry.completedAt ? new Date(entry.completedAt) : null;
+        if (!d || Number.isNaN(d.getTime())) return acc;
+        const key = dateKeyFromDate(d);
+        acc[key] = (acc[key] || 0) + 1;
+        return acc;
+    }, {});
+
+    body.innerHTML = '';
+
+    getWeekDates().forEach((dateObj) => {
+        const key = dateKeyFromDate(dateObj);
+        const count = countsByDate[key] || 0;
+        const row = document.createElement('tr');
+
+        const dayCell = document.createElement('td');
+        dayCell.innerText = getWeekdayName(dateObj);
+
+        const dateCell = document.createElement('td');
+        dateCell.innerText = key;
+
+        const countCell = document.createElement('td');
+        countCell.innerText = String(count);
+
+        row.appendChild(dayCell);
+        row.appendChild(dateCell);
+        row.appendChild(countCell);
+        body.appendChild(row);
+    });
+}
+
 function registerCompletedPomodoroCycle() {
     cycleHistory.push({
         mode: 'pomodoro',
@@ -160,6 +212,7 @@ function registerCompletedPomodoroCycle() {
     saveCycleHistory();
     updateCycleStatsUI();
     renderCycleHistory();
+    renderWeeklyTable();
 }
 
 function toggleTimer() {

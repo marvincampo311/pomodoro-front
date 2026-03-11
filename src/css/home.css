@@ -302,6 +302,67 @@ body {
     color: rgba(255, 255, 255, 0.55);
 }
 
+.weekly-section {
+    margin: 0 4rem 3rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+.weekly-header {
+    width: 100%;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.weekly-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.weekly-subtitle {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.weekly-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.weekly-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.weekly-table th,
+.weekly-table td {
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+}
+
+.weekly-table thead th {
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.weekly-table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.weekly-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.weekly-table tbody td:last-child {
+    font-weight: 700;
+    color: #9CCDDB;
+}
+
 .notes-header {
     display: flex;
     justify-content: space-between;
@@ -362,5 +423,9 @@ textarea {
 
     .modal-content {
         transform: none;
+    }
+
+    .weekly-section {
+        margin: 0 1.5rem 2rem;
     }
 }
