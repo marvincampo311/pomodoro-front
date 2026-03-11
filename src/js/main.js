@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('startBtn').addEventListener('click', toggleTimer);
     document.getElementById('resetBtn').addEventListener('click', resetTimer);
 
+    setupPomodoroIntroModal();
     setupSettingsModal();
     setupPdfDownload();
     loadCycleHistory();
@@ -67,6 +68,39 @@ function getRunningStatus() {
     if (currentMode === 'pomodoro') return 'En enfoque...';
     if (currentMode === 'short') return 'En descanso corto...';
     return 'En descanso largo...';
+}
+
+function getPomodoroInfoKey() {
+    const userId = (currentUser && currentUser.id) ? currentUser.id : '';
+    const username = (currentUser && currentUser.username) ? currentUser.username : 'usuario';
+    const safeUsername = String(username).replace(/\s+/g, '_').toLowerCase();
+    const identity = userId || safeUsername;
+    return `pomodoro_intro_dismissed:${identity}`;
+}
+
+function setupPomodoroIntroModal() {
+    const modal = document.getElementById('pomodoroIntroModal');
+    const okBtn = document.getElementById('introOkBtn');
+    const closeBtn = document.getElementById('introCloseBtn');
+    if (!modal || !okBtn || !closeBtn) return;
+
+    if (localStorage.getItem(getPomodoroInfoKey()) === '1') {
+        modal.classList.add('hidden');
+        return;
+    }
+
+    const closeModal = () => {
+        modal.classList.add('hidden');
+        localStorage.setItem(getPomodoroInfoKey(), '1');
+    };
+
+    okBtn.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+
+    modal.classList.remove('hidden');
 }
 
 function getCycleStorageKey() {

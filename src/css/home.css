@@ -63,6 +63,23 @@ body {
     justify-content: center;
 }
 
+.intro-modal-content {
+    transform: none;
+    width: min(640px, 90vw);
+    text-align: left;
+}
+
+.intro-modal-content h3 {
+    margin-top: 0;
+    color: #9CCDDB;
+}
+
+.intro-text {
+    margin: 0 0 1.5rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.5;
+}
+
 .timer-section,
 .notes-section {
     min-height: 700px;
