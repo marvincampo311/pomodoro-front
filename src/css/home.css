@@ -59,6 +59,32 @@ body {
     text-underline-offset: 4px;
 }
 
+.about-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.about-popover {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: min(360px, 80vw);
+    background: rgba(15, 15, 15, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+    z-index: 50;
+}
+
+.about-popover p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.88rem;
+    line-height: 1.45;
+}
+
 .dashboard-container {
     display: grid;
     grid-template-columns: 1.5fr 1fr;

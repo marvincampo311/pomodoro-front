@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('startBtn').addEventListener('click', toggleTimer);
     document.getElementById('resetBtn').addEventListener('click', resetTimer);
 
+    setupAboutPopover();
     setupPomodoroIntroModal();
     setupSettingsModal();
     setupPdfDownload();
@@ -68,6 +69,24 @@ function getRunningStatus() {
     if (currentMode === 'pomodoro') return 'En enfoque...';
     if (currentMode === 'short') return 'En descanso corto...';
     return 'En descanso largo...';
+}
+
+function setupAboutPopover() {
+    const toggle = document.getElementById('aboutToggle');
+    const popover = document.getElementById('aboutPopover');
+    if (!toggle || !popover) return;
+
+    toggle.addEventListener('click', () => {
+        popover.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!popover.classList.contains('hidden')) {
+            if (!popover.contains(e.target) && e.target !== toggle) {
+                popover.classList.add('hidden');
+            }
+        }
+    });
 }
 
 function getPomodoroInfoKey() {
