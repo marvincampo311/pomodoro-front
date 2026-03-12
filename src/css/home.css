@@ -41,6 +41,24 @@ body {
     background: rgba(255, 255, 255, 0.1);
 }
 
+.about-link {
+    color: rgba(255, 255, 255, 0.85);
+    margin-right: 1.2rem;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    user-select: text;
+}
+
+.about-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+}
+
 .dashboard-container {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
