@@ -67,9 +67,10 @@ body {
 
 .about-popover {
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 15px);
     left: 0;
-    width: min(360px, 80vw);
+    margin-right: 300px;
+    width: min(300px, 80vw);
     background: rgba(15, 15, 15, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 12px;
