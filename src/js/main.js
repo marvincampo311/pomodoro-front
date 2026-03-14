@@ -35,12 +35,16 @@ let timeLeft = timerSettings[currentMode];
 let timerId = null;
 let isRunning = false;
 let cycleHistory = [];
+let audioCtx = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     const display = document.getElementById('usernameDisplay');
     if (display) display.innerText = `Hola, ${(currentUser && currentUser.username) || 'Usuario'}`;
 
-    document.getElementById('startBtn').addEventListener('click', toggleTimer);
+    document.getElementById('startBtn').addEventListener('click', () => {
+        unlockAudio();
+        toggleTimer();
+    });
     document.getElementById('resetBtn').addEventListener('click', resetTimer);
 
     setupAboutPopover();
@@ -69,6 +73,38 @@ function getRunningStatus() {
     if (currentMode === 'pomodoro') return 'En enfoque...';
     if (currentMode === 'short') return 'En descanso corto...';
     return 'En descanso largo...';
+}
+
+function unlockAudio() {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    if (!audioCtx) {
+        audioCtx = new AudioCtx();
+    }
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+}
+
+function playTimerEndSound() {
+    try {
+        unlockAudio();
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.value = 880;
+        gain.gain.value = 0.12;
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.4);
+    } catch (_e) {
+        // Sin sonido si el navegador bloquea audio
+    }
 }
 
 function setupAboutPopover() {
@@ -296,7 +332,10 @@ function toggleTimer() {
                 registerCompletedPomodoroCycle();
             }
 
-            alert('Tiempo cumplido!');
+            playTimerEndSound();
+            setTimeout(() => {
+                alert('Tiempo cumplido!');
+            }, 150);
             resetTimer();
         }
     }, 1000);
