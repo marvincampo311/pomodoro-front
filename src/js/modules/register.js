@@ -33,7 +33,7 @@ registerSubmitBtn.addEventListener('click', async () => {
     }
 
     try {
-        const response = await fetch('../../../pomodoro-back/api/v1/register.php', {
+        const response = await fetch('https://pomodoro-expert.xo.je/api/v1/register.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, email, password })
