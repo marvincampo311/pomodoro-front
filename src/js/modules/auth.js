@@ -26,7 +26,7 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
     try {
         // Subimos niveles: de modules -> js -> src -> front -> raíz para entrar a back
         // La ruta depende de cómo tengas las carpetas, pero esta es la estándar:
-        const response = await fetch('https://pomodoro-expert.xo.je/login.php', {
+        const response = await fetch('../../../pomodoro-back/api/v1/login.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
