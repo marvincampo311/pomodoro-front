@@ -107,6 +107,32 @@ function playTimerEndSound() {
     }
 }
 
+function playCountdownTick() {
+    try {
+        unlockAudio();
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.value = 520;
+        gain.gain.value = 0.03;
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        const now = audioCtx.currentTime;
+        gain.gain.setValueAtTime(0.0, now);
+        gain.gain.linearRampToValueAtTime(0.03, now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+
+        osc.start(now);
+        osc.stop(now + 0.14);
+    } catch (_e) {
+        // Sin sonido si el navegador bloquea audio
+    }
+}
+
 function setupAboutPopover() {
     const toggle = document.getElementById('aboutToggle');
     const popover = document.getElementById('aboutPopover');
@@ -323,6 +349,10 @@ function toggleTimer() {
     timerId = setInterval(() => {
         timeLeft -= 1;
         updateDisplay();
+
+        if (timeLeft > 0 && timeLeft <= 5) {
+            playCountdownTick();
+        }
 
         if (timeLeft <= 0) {
             clearInterval(timerId);
