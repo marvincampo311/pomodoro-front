@@ -425,6 +425,48 @@ body {
     color: #9CCDDB;
 }
 
+.study-stats-section {
+    margin: 0 4rem 3rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+.stats-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+    gap: 1.2rem;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 1.1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.stat-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.stat-value {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #9CCDDB;
+}
+
+.stat-caption {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
 .site-footer {
     margin: 3rem 4rem 2.5rem;
     padding: 2.5rem 2.5rem 1.6rem;
@@ -612,6 +654,14 @@ textarea {
     }
 
     .footer-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .study-stats-section {
+        margin: 0 1.5rem 2rem;
+    }
+
+    .stats-grid {
         grid-template-columns: 1fr;
     }
 }

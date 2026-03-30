@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCycleStatsUI();
     renderCycleHistory();
     renderWeeklyTable();
+    renderStudyStats();
     syncSettingsInputs();
     setMode('pomodoro');
 });
@@ -328,6 +329,54 @@ function registerCompletedPomodoroCycle() {
     updateCycleStatsUI();
     renderCycleHistory();
     renderWeeklyTable();
+    renderStudyStats();
+}
+
+function getWeekStart(dateObj) {
+    const d = new Date(dateObj);
+    const day = d.getDay();
+    const diff = (day === 0 ? -6 : 1) - day;
+    d.setDate(d.getDate() + diff);
+    d.setHours(0, 0, 0, 0);
+    return d;
+}
+
+function getMonthStart(dateObj) {
+    return new Date(dateObj.getFullYear(), dateObj.getMonth(), 1);
+}
+
+function sumMinutesSince(startDate) {
+    return cycleHistory.reduce((total, entry) => {
+        if (!entry || entry.mode !== 'pomodoro') return total;
+        const d = entry.completedAt ? new Date(entry.completedAt) : null;
+        if (!d || Number.isNaN(d.getTime())) return total;
+        if (d < startDate) return total;
+        return total + (Number(entry.durationMinutes) || 0);
+    }, 0);
+}
+
+function formatMinutes(totalMinutes) {
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return `${hours}h ${minutes}m`;
+}
+
+function renderStudyStats() {
+    const now = new Date();
+    const weekStart = getWeekStart(now);
+    const monthStart = getMonthStart(now);
+
+    const weekMinutes = sumMinutesSince(weekStart);
+    const monthMinutes = sumMinutesSince(monthStart);
+    const dailyAvgMinutes = Math.round(weekMinutes / 7);
+
+    const weekEl = document.getElementById('studyWeekTotal');
+    const monthEl = document.getElementById('studyMonthTotal');
+    const avgEl = document.getElementById('studyDailyAvg');
+
+    if (weekEl) weekEl.innerText = formatMinutes(weekMinutes);
+    if (monthEl) monthEl.innerText = formatMinutes(monthMinutes);
+    if (avgEl) avgEl.innerText = formatMinutes(dailyAvgMinutes);
 }
 
 function toggleTimer() {
