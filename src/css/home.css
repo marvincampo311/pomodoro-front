@@ -1,4 +1,4 @@
-/* src/css/home.css */
+﻿/* src/css/home.css */
 body {
     background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
     color: white;
@@ -119,10 +119,10 @@ body {
     color: #9CCDDB;
 }
 
-.intro-text {
-    margin: 0 0 1.5rem;
-    color: rgba(255, 255, 255, 0.85);
-    line-height: 1.5;
+.timer-finish-modal {
+    transform: none;
+    width: min(420px, 90vw);
+    text-align: left;
 }
 
 .timer-section,
@@ -163,7 +163,7 @@ body {
     transition: all 0.3s ease;
 }
 
-/* La tarjeta del menú */
+/* La tarjeta del menÃº */
 .modal-content {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -665,3 +665,5 @@ textarea {
         grid-template-columns: 1fr;
     }
 }
+
+

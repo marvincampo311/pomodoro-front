@@ -1,4 +1,4 @@
-function getStoredUser() {
+﻿function getStoredUser() {
     const raw = sessionStorage.getItem('user');
     if (!raw) return null;
 
@@ -36,6 +36,8 @@ let timerId = null;
 let isRunning = false;
 let cycleHistory = [];
 let audioCtx = null;
+let pomodoroCycleCounter = 0;
+let pendingTimerTransition = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     const display = document.getElementById('usernameDisplay');
@@ -49,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setupAboutPopover();
     setupPomodoroIntroModal();
+    setupSessionEndModal();
     setupSettingsModal();
     setupPdfDownload();
     loadCycleHistory();
@@ -182,6 +185,43 @@ function setupPomodoroIntroModal() {
         if (e.target === modal) closeModal();
     });
 
+    modal.classList.remove('hidden');
+}
+
+function setupSessionEndModal() {
+    let modal = document.getElementById('sessionEndModal');
+    let okBtn = document.getElementById('sessionEndOkBtn');
+    if (!modal || !okBtn) {
+        modal = document.createElement('div');
+        modal.id = 'sessionEndModal';
+        modal.className = 'modal-overlay hidden';
+        modal.innerHTML = '<div class="modal-content card-glass timer-finish-modal"><h3>Tiempo cumplido</h3><p id="sessionEndMessage" class="intro-text">Pomodoro finalizado.</p><div class="modal-buttons"><button id="sessionEndOkBtn" class="btn-primary-modal">OK</button></div></div>';
+        document.body.appendChild(modal);
+        okBtn = modal.querySelector('#sessionEndOkBtn');
+    }
+    okBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        if (typeof pendingTimerTransition === 'function') {
+            const nextAction = pendingTimerTransition;
+            pendingTimerTransition = null;
+            nextAction();
+        }
+    });
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            okBtn.click();
+        }
+    });
+}
+function showSessionEndModal(message, onOk) {
+    const modal = document.getElementById('sessionEndModal');
+    const msg = document.getElementById('sessionEndMessage');
+    if (!modal || !msg) {
+        if (typeof onOk === 'function') onOk();
+        return;
+    }
+    msg.innerText = message;
+    pendingTimerTransition = typeof onOk === 'function' ? onOk : null;
     modal.classList.remove('hidden');
 }
 
@@ -405,17 +445,33 @@ function toggleTimer() {
 
         if (timeLeft <= 0) {
             clearInterval(timerId);
+            timerId = null;
             isRunning = false;
-
+            playTimerEndSound();
             if (currentMode === 'pomodoro') {
                 registerCompletedPomodoroCycle();
+                pomodoroCycleCounter += 1;
+                let nextMode = 'short';
+                let nextLabel = 'descanso corto';
+                if (pomodoroCycleCounter >= 4) {
+                    nextMode = 'long';
+                    nextLabel = 'descanso largo';
+                    pomodoroCycleCounter = 0;
+                }
+                showSessionEndModal('Pomodoro finalizado. Presiona OK para iniciar ' + nextLabel + '.', () => {
+                    setMode(nextMode);
+                });
+                return;
             }
-
-            playTimerEndSound();
-            setTimeout(() => {
-                alert('Tiempo cumplido!');
-            }, 150);
-            resetTimer();
+            if (currentMode === 'short') {
+                showSessionEndModal('Descanso corto finalizado. Presiona OK para volver a Pomodoro.', () => {
+                    setMode('pomodoro');
+                });
+                return;
+            }
+            showSessionEndModal('Descanso largo finalizado. Presiona OK para volver a Pomodoro.', () => {
+                setMode('pomodoro');
+            });
         }
     }, 1000);
 }
@@ -562,3 +618,12 @@ function logout() {
     sessionStorage.clear();
     window.location.href = 'src/pages/login.html';
 }
+
+
+
+
+
+
+
+
+
