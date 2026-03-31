@@ -99,13 +99,13 @@ function playTimerEndSound() {
 
         osc.type = 'sine';
         osc.frequency.value = 880;
-        gain.gain.value = 0.12;
+        gain.gain.value = 0.2;
 
         osc.connect(gain);
         gain.connect(audioCtx.destination);
 
         osc.start();
-        osc.stop(audioCtx.currentTime + 0.4);
+        osc.stop(audioCtx.currentTime + 0.55);
     } catch (_e) {
         // Sin sonido si el navegador bloquea audio
     }
@@ -119,19 +119,19 @@ function playCountdownTick() {
         const gain = audioCtx.createGain();
 
         osc.type = 'sine';
-        osc.frequency.value = 520;
-        gain.gain.value = 0.03;
+        osc.frequency.value = 640;
+        gain.gain.value = 0.16;
 
         osc.connect(gain);
         gain.connect(audioCtx.destination);
 
         const now = audioCtx.currentTime;
         gain.gain.setValueAtTime(0.0, now);
-        gain.gain.linearRampToValueAtTime(0.03, now + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+        gain.gain.linearRampToValueAtTime(0.16, now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
 
         osc.start(now);
-        osc.stop(now + 0.14);
+        osc.stop(now + 0.24);
     } catch (_e) {
         // Sin sonido si el navegador bloquea audio
     }
@@ -618,6 +618,8 @@ function logout() {
     sessionStorage.clear();
     window.location.href = 'src/pages/login.html';
 }
+
+
 
 
 
