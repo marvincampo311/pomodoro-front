@@ -1,5 +1,7 @@
 # Pomodoro Front (HTML, CSS, JavaScript)
 
+![Pantalla de Login](assents/img/Login.png)
+
 Interfaz web del proyecto Pomodoro: login, registro y dashboard con temporizador, descansos y estadísticas.
 
 ## Tecnologías
@@ -77,6 +79,16 @@ Estas rutas están configuradas en:
 - Sonido de fin de bloque.
 - Historial y métricas de estudio (localStorage).
 - Descarga de notas en PDF.
+
+## Galería
+
+### Dashboard
+
+![Pantalla de Dashboard](assents/img/Dashboard.png)
+
+### Identidad visual
+
+![Icono del proyecto](assents/img/watch.png)
 
 ## Usuario de prueba
 
