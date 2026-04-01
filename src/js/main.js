@@ -572,7 +572,7 @@ function setupPdfDownload() {
 
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(20);
-        doc.text('Reporte de Enfoque - Pomodoro Pro', marginX, y);
+        doc.text('Reporte de Enfoque - TomaTask', marginX, y);
         y += 30;
 
         doc.setFont('helvetica', 'normal');
@@ -600,7 +600,7 @@ function setupPdfDownload() {
             y += lineHeight;
         });
 
-        doc.save(`Notas_Pomodoro_${username}.pdf`);
+        doc.save(`Notas_TomaTask_${username}.pdf`);
     });
 }
 

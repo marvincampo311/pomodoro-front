@@ -1,8 +1,8 @@
-# Pomodoro Front (HTML, CSS, JavaScript)
+# TomaTask Front (HTML, CSS, JavaScript)
 
 ![Pantalla de Login](assents/img/Login.png)
 
-Interfaz web del proyecto Pomodoro: login, registro y dashboard con temporizador, descansos y estadísticas.
+Interfaz web del proyecto TomaTask: login, registro y dashboard con temporizador, descansos y estadísticas.
 
 ## Tecnologías
 
